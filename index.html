@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GoBoult - Premium ANC Headphones | Made in India</title>
+  <!-- Google Fonts: Poppins for clean modern typography matching reference images -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      width: 100%;
+      background-color: #0e1316;
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: #0e1316;
+      margin: 0;
+      padding: 0;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* Fixed Viewport Canvas (stays in background as user scrolls) */
+    .canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      width: 100dvw;
+      height: 100dvh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0e1316;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* =========================================
+       MINIMAL TEXT NAVBAR (Pure text links, no navbar bar/box)
+       ========================================= */
+    .text-nav {
+      position: fixed;
+      top: 32px;
+      left: clamp(20px, 4vw, 48px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: clamp(14px, 2vw, 28px);
+      background: transparent;
+      user-select: none;
+    }
+
+    .nav-text-item {
+      font-size: clamp(0.74rem, 1.1vw, 0.9rem);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      text-decoration: none;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+      transition: color 0.25s ease, opacity 0.25s ease;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-text-item:hover {
+      color: #ffffff;
+    }
+
+    .nav-text-item.active {
+      color: #c8a876;
+    }
+
+    .nav-text-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #c8a876;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(200, 168, 118, 0.8);
+    }
+
+    /* Top Right 'Made in India 🇮🇳' badge */
+    .top-badge {
+      position: fixed;
+      top: 32px;
+      right: clamp(20px, 4vw, 48px);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .top-badge .highlight-india {
+      color: #00bbf9;
+      background: linear-gradient(135deg, #38bdf8, #00b4d8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .top-badge .flag-icon {
+      font-size: 1.3em;
+      line-height: 1;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+    }
+
+    /* Scrollable content container: all sections scroll naturally over the fixed 3D canvas */
+    .scroll-content {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      pointer-events: auto;
+    }
+
+    /* =========================================
+       SECTION 1: Overview (from Image 1)
+       ========================================= */
+    .section-hero {
+      position: relative;
+      width: 100%;
+      min-height: 125vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 clamp(20px, 5vw, 60px) clamp(60px, 8vh, 100px);
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    .brand-title {
+      font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+      font-weight: 800;
+      color: #c8a876;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .main-heading {
+      font-size: clamp(2.2rem, 5.2vw, 3.8rem);
+      line-height: 1.15;
+      margin-bottom: clamp(24px, 4vw, 36px);
+    }
+
+    .heading-lead {
+      display: block;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    .heading-sub {
+      display: block;
+      font-weight: 600;
+      color: #c8a876;
+      letter-spacing: -0.01em;
+      margin-top: 4px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(14px, 3vw, 32px);
+      align-items: flex-start;
+      margin-bottom: clamp(20px, 3vw, 28px);
+    }
+
+    .stat-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .stat-desc {
+      font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+      font-weight: 500;
+      color: #d1d5db;
+      line-height: 1.35;
+    }
+
+    .disclaimer-text {
+      font-size: clamp(0.72rem, 1.15vw, 0.85rem);
+      font-weight: 400;
+      color: #9ca3af;
+      line-height: 1.45;
+    }
+
+    /* =========================================
+       SECTION 2: Build Design (from Image 4)
+       ========================================= */
+    .section-design {
+      position: relative;
+      width: 100%;
+      min-height: 125vh;
+      display: flex;
+      align-items: center;
+      padding: clamp(80px, 12vh, 120px) clamp(24px, 5vw, 60px);
+    }
+
+    .design-container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(24px, 4vw, 48px);
+      align-items: center;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    .design-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(32px, 5vh, 48px);
+    }
+
+    .anc-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 18px;
+      padding: 12px 22px;
+      line-height: 1.15;
+    }
+
+    .anc-title {
+      font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    .anc-sub {
+      font-size: clamp(0.78rem, 1.2vw, 0.92rem);
+      font-weight: 500;
+      color: #d1d5db;
+      margin-top: 3px;
+    }
+
+    .design-callouts {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(24px, 4vh, 36px);
+    }
+
+    .design-callout-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .callout-heading-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .callout-heading {
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .callout-icon {
+      color: #c8a876;
+      display: flex;
+      align-items: center;
+    }
+
+    .callout-sub {
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-weight: 500;
+      color: #d1d5db;
+      line-height: 1.3;
+      margin-top: 4px;
+    }
+
+    .build-design-heading {
+      font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .build-design-sub {
+      font-size: clamp(1.1rem, 2vw, 1.55rem);
+      font-weight: 500;
+      color: #c8a876;
+      margin-top: 8px;
+    }
+
+    /* =========================================
+       SECTION 3: Features Bento Grid (from Image 2)
+       ========================================= */
+    .section-features {
+      position: relative;
+      width: 100%;
+      min-height: 125vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(80px, 12vh, 120px) clamp(20px, 4vw, 50px);
+    }
+
+    .features-stage {
+      width: 100%;
+      max-width: 1240px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1.1fr;
+      grid-template-rows: auto auto auto;
+      gap: clamp(24px, 4vw, 48px) clamp(20px, 3.5vw, 40px);
+      align-items: center;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    .feat-big {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .feat-sub {
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      font-weight: 500;
+      color: #c8a876;
+      line-height: 1.25;
+      margin-top: 4px;
+    }
+
+    .feat-item-40mm { grid-column: 1; grid-row: 1; }
+
+    .feat-item-control {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .control-title {
+      font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: #ffffff;
+    }
+
+    .control-title span { display: block; }
+
+    .control-widgets {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .widget-slider-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(200, 168, 118, 0.35);
+      border-radius: 999px;
+      padding: 4px 12px;
+      color: #c8a876;
+      font-size: 0.85rem;
+    }
+
+    .slider-line {
+      width: 50px;
+      height: 2px;
+      background: rgba(200, 168, 118, 0.4);
+      position: relative;
+    }
+
+    .slider-dot {
+      position: absolute;
+      top: -3px;
+      right: 14px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c8a876;
+    }
+
+    .widget-btns-row { display: flex; gap: 8px; }
+
+    .pill-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(200, 168, 118, 0.35);
+      border-radius: 999px;
+      padding: 3px 12px;
+      color: #c8a876;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .feat-item-enc {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .enc-sound-icon {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: #ffffff;
+    }
+
+    .enc-text .enc-heading {
+      font-size: clamp(2rem, 3.8vw, 2.9rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .enc-text .enc-sub {
+      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+      color: #d1d5db;
+      font-weight: 500;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .feat-item-latency {
+      grid-column: 3;
+      grid-row: 2;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .feat-item-latency .latency-sub {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 600;
+      color: #c8a876;
+      line-height: 1;
+    }
+
+    .feat-item-bt {
+      grid-column: 1;
+      grid-row: 3;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .bt-icon-wrapper {
+      color: #ffffff;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .bt-text .bt-title,
+    .bt-text .bt-version {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      color: #ffffff;
+      line-height: 1;
+    }
+
+    .feat-item-battery-eq {
+      grid-column: 2;
+      grid-row: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .battery-group .battery-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .battery-icon-svg { color: #c8a876; }
+
+    .battery-desc {
+      font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+      color: #ffffff;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .eq-group .eq-title {
+      font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .eq-group .eq-sub {
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+      color: #c8a876;
+      font-weight: 500;
+      margin-top: 3px;
+    }
+
+    .feat-item-processor {
+      grid-column: 3;
+      grid-row: 3;
+      justify-self: end;
+      text-align: right;
+    }
+
+    .proc-line-1 {
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.15;
+    }
+
+    .proc-line-2 {
+      font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+      font-weight: 800;
+      color: #c8a876;
+      line-height: 1.1;
+    }
+
+    .proc-line-3 {
+      font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    /* =========================================
+       SECTION 4: Comparison (from Image 3)
+       ========================================= */
+    .section-comparison {
+      position: relative;
+      width: 100%;
+      min-height: 125vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(80px, 12vh, 120px) clamp(20px, 4vw, 50px);
+    }
+
+    .comparison-wrapper {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(24px, 4vw, 56px);
+      align-items: start;
+    }
+
+    .comp-col-header {
+      padding-bottom: clamp(16px, 2.5vh, 24px);
+      margin-bottom: 8px;
+    }
+
+    .comp-col-goboult .comp-header-title {
+      font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+      font-weight: 900;
+      color: #c8a876;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .comp-col-others .comp-header-title {
+      font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .comp-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comp-row {
+      display: flex;
+      align-items: center;
+      min-height: clamp(66px, 8.5vh, 84px);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .comp-col-goboult .comp-row {
+      gap: 16px;
+    }
+
+    .comp-icon {
+      flex-shrink: 0;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c8a876;
+    }
+
+    .comp-flag-icon {
+      font-size: 1.45rem;
+      line-height: 1;
+    }
+
+    .comp-row-text {
+      font-size: clamp(1.02rem, 1.8vw, 1.35rem);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .comp-col-goboult .comp-row-text {
+      color: #ffffff;
+    }
+
+    .comp-col-others .comp-row-text {
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    /* =========================================
+       SECTION 5: Explore & Footer (from Image 5)
+       ========================================= */
+    .section-explore {
+      position: relative;
+      width: 100%;
+      min-height: 110vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(80px, 10vh, 120px) clamp(20px, 4vw, 50px) clamp(40px, 6vh, 60px);
+    }
+
+    .explore-container {
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      text-shadow: 0 3px 18px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
+    }
+
+    .explore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: clamp(32px, 5vw, 64px);
+      align-items: start;
+    }
+
+    .newsletter-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 28px;
+      padding: clamp(28px, 4vw, 42px);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    }
+
+    .newsletter-title {
+      font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .newsletter-sub {
+      font-size: clamp(0.85rem, 1.25vw, 1rem);
+      font-weight: 400;
+      color: #d1d5db;
+      line-height: 1.45;
+      margin-bottom: 24px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .newsletter-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #222222;
+      outline: none;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .newsletter-input:focus {
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.4);
+    }
+
+    .newsletter-btn {
+      align-self: flex-start;
+      background: #181c20;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .newsletter-btn:hover {
+      background: #252b31;
+      transform: translateY(-1px);
+    }
+
+    .links-columns-wrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(20px, 3vw, 40px);
+    }
+
+    .links-col {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(24px, 4vh, 36px);
+    }
+
+    .links-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .links-heading {
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      font-weight: 700;
+      color: #00bbf9;
+      background: linear-gradient(135deg, #38bdf8, #00b4d8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .links-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .links-list li a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: clamp(0.82rem, 1.15vw, 0.96rem);
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .links-list li a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .patent-rights-bar {
+      margin-top: clamp(40px, 6vh, 60px);
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      text-align: center;
+    }
+
+    .patent-rights-text {
+      font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+      font-weight: 500;
+      color: #9ca3af;
+      letter-spacing: 0.05em;
+    }
+
+    .patent-author {
+      color: #c8a876;
+      font-weight: 700;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 900px) {
+      .design-container { grid-template-columns: 1fr; }
+      .features-stage {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto auto;
+      }
+      .feat-item-40mm { grid-column: 1; grid-row: 1; }
+      .feat-item-enc { grid-column: 2; grid-row: 1; justify-self: end; }
+      .feat-item-control { grid-column: 1; grid-row: 2; }
+      .feat-item-latency { grid-column: 2; grid-row: 2; justify-self: end; }
+      .feat-item-bt { grid-column: 1; grid-row: 3; }
+      .feat-item-battery-eq { grid-column: 2; grid-row: 3; justify-self: end; }
+      .feat-item-processor { grid-column: 1 / -1; grid-row: 4; justify-self: center; text-align: center; }
+      .explore-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .text-nav {
+        top: 20px;
+        left: 16px;
+        gap: 10px;
+      }
+      .top-badge {
+        top: 20px;
+        right: 16px;
+      }
+      .comparison-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .comp-col-goboult .comp-header-title {
+        letter-spacing: 0.18em;
+      }
+      .features-stage {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .feat-item-40mm,
+      .feat-item-control,
+      .feat-item-enc,
+      .feat-item-latency,
+      .feat-item-bt,
+      .feat-item-battery-eq,
+      .feat-item-processor {
+        grid-column: 1;
+        justify-self: start;
+        text-align: left;
+      }
+      .stats-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .links-columns-wrapper {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pure Text Navbar (No navbar bar/box - just clean text options) -->
+  <nav class="text-nav" id="text-nav">
+    <a class="nav-text-item active" data-target="overview">Overview</a>
+    <a class="nav-text-item" data-target="design">Design</a>
+    <a class="nav-text-item" data-target="features">Features</a>
+    <a class="nav-text-item" data-target="comparison">Comparison</a>
+    <a class="nav-text-item" data-target="explore">Explore</a>
+  </nav>
+
+  <!-- Top Right "Made in India 🇮🇳" badge -->
+  <div class="top-badge">
+    <span>Made in</span>
+    <span class="highlight-india">India</span>
+    <span class="flag-icon">🇮🇳</span>
+  </div>
+
+  <!-- Full-Screen Sticky 3D Animation Canvas (Pinned in background) -->
+  <div class="canvas-container">
+    <canvas id="animation-canvas"></canvas>
+  </div>
+
+  <!-- Scrollable Content Flow: Sections scroll naturally while 3D background animates -->
+  <div class="scroll-content">
+
+    <!-- =========================================
+         SECTION 1: Overview (from Image 1)
+         ========================================= -->
+    <section class="section-hero" id="overview">
+      <div class="hero-content">
+        <div class="brand-title">G O B O U L T</div>
+        <h1 class="main-heading">
+          <span class="heading-lead">India’s Fastest growing</span>
+          <span class="heading-sub">wearable brand*</span>
+        </h1>
+
+        <div class="stats-row">
+          <div class="stat-col">
+            <div class="stat-number">4cr+</div>
+            <div class="stat-desc">units sold<br>till now</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">00:03</div>
+            <div class="stat-desc">seconds to sell<br>one product</div>
+          </div>
+          <div class="stat-col">
+            <div class="stat-number">40L+</div>
+            <div class="stat-desc">Product reviews<br>and ratings</div>
+          </div>
+        </div>
+
+        <p class="disclaimer-text">
+          *In Q1 2023 in the wearables category (audio & smartwatch) as per the IDC report 2023.
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECTION 2: Build Design (from Image 4)
+         ========================================= -->
+    <section class="section-design" id="design">
+      <div class="design-container">
+        
+        <div class="design-left-col">
+          <!-- Top ANC Badge -->
+          <div class="anc-badge">
+            <div class="anc-title">ANC</div>
+            <div class="anc-sub">Active Noise<br>Cancellation</div>
+          </div>
+
+          <!-- Middle Callouts -->
+          <div class="design-callouts">
+            <!-- Callout 1: Premium Soft Ear Cushions -->
+            <div class="design-callout-item">
+              <div class="callout-heading">Premium Soft</div>
+              <div class="callout-sub">Ear Cushions</div>
+            </div>
+
+            <!-- Callout 2: Compact Foldable and Rotational design -->
+            <div class="design-callout-item">
+              <div class="callout-heading-row">
+                <span class="callout-heading">Compact</span>
+                <span class="callout-icon">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 14v-2a8 8 0 0 1 16 0v2"></path>
+                    <rect x="2" y="14" width="4" height="6" rx="2"></rect>
+                    <rect x="18" y="14" width="4" height="6" rx="2"></rect>
+                    <path d="M6 18l4 2.5"></path>
+                    <path d="M18 18l-4 2.5"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="callout-sub">Foldable and<br>Rotational design</div>
+            </div>
+          </div>
+
+          <!-- Bottom: Build Design / Fold it, wear it, love it -->
+          <div class="design-bottom-title">
+            <h2 class="build-design-heading">Build Design</h2>
+            <p class="build-design-sub">Fold it, wear it, love it</p>
+          </div>
+        </div>
+
+        <!-- Right side is open for the 3D headphones model! -->
+        <div class="design-right-space"></div>
+
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECTION 3: Features Bento Grid (from Image 2)
+         ========================================= -->
+    <section class="section-features" id="features">
+      <div class="features-stage">
+
+        <!-- 1. Top Left: 40 mm bass boosted drivers -->
+        <div class="feat-item-40mm">
+          <div class="feat-big">40 mm</div>
+          <div class="feat-sub">bass boosted drivers</div>
+        </div>
+
+        <!-- 2. Top Middle: Easy control + sliders -->
+        <div class="feat-item-control">
+          <div class="control-title">
+            <span>Easy</span>
+            <span>control</span>
+          </div>
+          <div class="control-widgets">
+            <div class="widget-slider-pill">
+              <span>—</span>
+              <div class="slider-line"><span class="slider-dot"></span></div>
+              <span>+</span>
+            </div>
+            <div class="widget-btns-row">
+              <div class="pill-btn">▶❚❚</div>
+              <div class="pill-btn">XBass</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Top Right: ENC calling -->
+        <div class="feat-item-enc">
+          <div class="enc-sound-icon">
+            <svg width="34" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <path d="M2 10v4"></path>
+              <path d="M6 7v10"></path>
+              <path d="M10 4v16"></path>
+              <circle cx="15" cy="12" r="1.5" fill="currentColor"></circle>
+              <circle cx="19" cy="12" r="1.5" fill="currentColor"></circle>
+            </svg>
+          </div>
+          <div class="enc-text">
+            <div class="enc-heading">ENC</div>
+            <div class="enc-sub">calling</div>
+          </div>
+        </div>
+
+        <!-- 4. Middle Right: 60ms Latency -->
+        <div class="feat-item-latency">
+          <div class="feat-big">60ms</div>
+          <div class="latency-sub">Latency</div>
+        </div>
+
+        <!-- 5. Bottom Far-Left: BT v5.4 -->
+        <div class="feat-item-bt">
+          <div class="bt-icon-wrapper">
+            <svg width="36" height="42" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 7 18 19 12 25 12 3 18 9 6 21"></polyline>
+              <path d="M19 11a5 5 0 0 1 0 6"></path>
+              <path d="M22 8a9 9 0 0 1 0 12"></path>
+            </svg>
+          </div>
+          <div class="bt-text">
+            <div class="bt-title">BT</div>
+            <div class="bt-version">v5.4</div>
+          </div>
+        </div>
+
+        <!-- 6. Bottom Mid-Left: 70 hrs & EQ Modes -->
+        <div class="feat-item-battery-eq">
+          <div class="battery-group">
+            <div class="battery-top">
+              <span class="feat-big">70 hrs</span>
+              <span class="battery-icon-svg">
+                <svg width="24" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="5" width="16" height="14" rx="2"></rect>
+                  <path d="M20 10v4"></path>
+                  <polygon points="11 7 8 13 12 13 9 17 14 11 10 11 11 7" fill="currentColor"></polygon>
+                </svg>
+              </span>
+            </div>
+            <div class="battery-desc">Long lasting battery</div>
+          </div>
+
+          <div class="eq-group">
+            <div class="eq-title">EQ Modes</div>
+            <div class="eq-sub">Bass | Rock | Pop | Vocal</div>
+          </div>
+        </div>
+
+        <!-- 7. Bottom Right: Integrated Sound Processor -->
+        <div class="feat-item-processor">
+          <div class="proc-line-1">Integrated</div>
+          <div class="proc-line-2">Sound</div>
+          <div class="proc-line-3">Processor</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECTION 4: Comparison (from Image 3)
+         ========================================= -->
+    <section class="section-comparison" id="comparison">
+      <div class="comparison-wrapper">
+        <div class="comparison-grid">
+
+          <!-- Left Column: GOBOULT -->
+          <div class="comp-col comp-col-goboult">
+            <div class="comp-col-header">
+              <div class="comp-header-title">G O B O U L T</div>
+            </div>
+
+            <div class="comp-list">
+              <!-- Row 1: Proudly Made in India -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <span class="comp-flag-icon">🇮🇳</span>
+                </div>
+                <div class="comp-row-text">Proudly Made in India</div>
+              </div>
+
+              <!-- Row 2: Consistent Performance -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </div>
+                <div class="comp-row-text">Consistent Performance</div>
+              </div>
+
+              <!-- Row 3: Superior Quality Build -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <path d="M4 10v4"></path>
+                    <path d="M8 7v10"></path>
+                    <path d="M12 4v16"></path>
+                    <path d="M16 7v10"></path>
+                    <path d="M20 10v4"></path>
+                  </svg>
+                </div>
+                <div class="comp-row-text">Superior Quality Build</div>
+              </div>
+
+              <!-- Row 4: Thoroughly Researched Designs -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                    <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                    <path d="M2 2l7.586 7.586"></path>
+                    <circle cx="11" cy="11" r="2"></circle>
+                  </svg>
+                </div>
+                <div class="comp-row-text">Thoroughly Researched Designs</div>
+              </div>
+
+              <!-- Row 5: Durable, Premium Material -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M9 12l2 2 4-4"></path>
+                  </svg>
+                </div>
+                <div class="comp-row-text">Durable, Premium Material</div>
+              </div>
+
+              <!-- Row 6: Intensive Health Tracking -->
+              <div class="comp-row">
+                <div class="comp-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    <polyline points="7 12 10 12 11.5 9 13.5 15 15 12 17 12"></polyline>
+                  </svg>
+                </div>
+                <div class="comp-row-text">Intensive Health Tracking</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Other Brands -->
+          <div class="comp-col comp-col-others">
+            <div class="comp-col-header">
+              <div class="comp-header-title">Other Brands</div>
+            </div>
+
+            <div class="comp-list">
+              <!-- Row 1: Manufactured in China -->
+              <div class="comp-row">
+                <div class="comp-row-text">Manufactured in China</div>
+              </div>
+
+              <!-- Row 2: Performance drops over time -->
+              <div class="comp-row">
+                <div class="comp-row-text">Performance drops over time</div>
+              </div>
+
+              <!-- Row 3: Compromised Build -->
+              <div class="comp-row">
+                <div class="comp-row-text">Compromised Build</div>
+              </div>
+
+              <!-- Row 4: Generic Designs -->
+              <div class="comp-row">
+                <div class="comp-row-text">Generic Designs</div>
+              </div>
+
+              <!-- Row 5: Substandard Materials -->
+              <div class="comp-row">
+                <div class="comp-row-text">Substandard Materials</div>
+              </div>
+
+              <!-- Row 6: Standard Monitoring -->
+              <div class="comp-row">
+                <div class="comp-row-text">Standard Monitoring</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================
+         SECTION 5: Explore & Footer (from Image 5)
+         ========================================= -->
+    <section class="section-explore" id="explore">
+      <div class="explore-container">
+        
+        <div class="explore-grid">
+
+          <!-- Left Column: Newsletter Subscription -->
+          <div class="newsletter-card">
+            <h2 class="newsletter-title">Step into the world of GoBoult.</h2>
+            <p class="newsletter-sub">
+              Get insider info on offers and product launches, collaborations, exclusive offers and lots more!
+            </p>
+
+            <form class="newsletter-form" onsubmit="event.preventDefault();">
+              <input type="email" class="newsletter-input" placeholder="Email" required />
+              <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+          </div>
+
+          <!-- Right Column: Navigation Links Grid -->
+          <div class="links-columns-wrapper">
+
+            <!-- Sub-Col 1: Explore by category + Company -->
+            <div class="links-col">
+              <div class="links-group">
+                <h3 class="links-heading">Explore by category</h3>
+                <ul class="links-list">
+                  <li><a href="#explore">True Wireless</a></li>
+                  <li><a href="#explore">DashCam</a></li>
+                  <li><a href="#explore">Smart Watches</a></li>
+                  <li><a href="#explore">Neckbands</a></li>
+                  <li><a href="#explore">Headphones</a></li>
+                  <li><a href="#explore">Speakers</a></li>
+                  <li><a href="#explore">Smartwatch Straps</a></li>
+                  <li><a href="#explore">Accessories</a></li>
+                </ul>
+              </div>
+
+              <div class="links-group">
+                <h3 class="links-heading">Company</h3>
+                <ul class="links-list">
+                  <li><a href="#overview">About Us</a></li>
+                  <li><a href="#explore">Careers</a></li>
+                  <li><a href="#explore">Blogs</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Sub-Col 2: Explore by activity + Corporate Order -->
+            <div class="links-col">
+              <div class="links-group">
+                <h3 class="links-heading">Explore by activity</h3>
+                <ul class="links-list">
+                  <li><a href="#features">Audiophile</a></li>
+                  <li><a href="#features">Workout</a></li>
+                  <li><a href="#design">Travel</a></li>
+                  <li><a href="#features">Gaming</a></li>
+                </ul>
+              </div>
+
+              <div class="links-group">
+                <h3 class="links-heading">Corporate Order</h3>
+                <ul class="links-list">
+                  <li><a href="#explore">Bulk Order</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Sub-Col 3: Support -->
+            <div class="links-col">
+              <div class="links-group">
+                <h3 class="links-heading">Support</h3>
+                <ul class="links-list">
+                  <li><a href="#explore">Warranty Registration</a></li>
+                  <li><a href="#explore">Track Service Request Status</a></li>
+                  <li><a href="#explore">Customer support</a></li>
+                  <li><a href="#explore">Track Order</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Patent Rights Line at Bottom: S John Paul -->
+        <div class="patent-rights-bar">
+          <p class="patent-rights-text">
+            Patent Rights reserved by <span class="patent-author">S John Paul</span>
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    (function () {
+      const TOTAL_FRAMES = 240;
+      const FRAME_PATH = (index) => `frames/ezgif-frame-${String(index).padStart(3, '0')}.jpg`;
+
+      const canvas = document.getElementById('animation-canvas');
+      const ctx = canvas.getContext('2d', { alpha: false });
+
+      const images = new Array(TOTAL_FRAMES);
+      const isLoaded = new Uint8Array(TOTAL_FRAMES);
+
+      let currentFrame = 1;
+      let targetFrame = 1;
+      let lastRenderedFrame = -1;
+      let isInitialRendered = false;
+
+      // Silky smooth interpolation factor
+      const LERP_FACTOR = 0.085;
+
+      let viewportWidth = window.innerWidth;
+      let viewportHeight = window.innerHeight;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resizeCanvas() {
+        viewportWidth = window.innerWidth;
+        viewportHeight = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        canvas.width = Math.round(viewportWidth * dpr);
+        canvas.height = Math.round(viewportHeight * dpr);
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        if (lastRenderedFrame > 0) {
+          drawFrame(lastRenderedFrame);
+        }
+      }
+
+      // Draw image perfectly centered to cover screen
+      function drawImageCover(img) {
+        const cw = canvas.width;
+        const ch = canvas.height;
+        const iw = img.naturalWidth || 1920;
+        const ih = img.naturalHeight || 1080;
+
+        const scale = Math.max(cw / iw, ch / ih);
+        const nw = iw * scale;
+        const nh = ih * scale;
+        const nx = (cw - nw) * 0.5;
+        const ny = (ch - nh) * 0.5;
+
+        ctx.drawImage(img, nx, ny, nw, nh);
+      }
+
+      function drawFrame(frameNumber) {
+        const index = Math.min(TOTAL_FRAMES, Math.max(1, frameNumber)) - 1;
+
+        if (isLoaded[index] && images[index]) {
+          drawImageCover(images[index]);
+          lastRenderedFrame = index + 1;
+          return;
+        }
+
+        // Fallback to nearest loaded frame to guarantee no flicker
+        for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+          const prev = index - offset;
+          if (prev >= 0 && isLoaded[prev] && images[prev]) {
+            drawImageCover(images[prev]);
+            lastRenderedFrame = prev + 1;
+            return;
+          }
+          const next = index + offset;
+          if (next < TOTAL_FRAMES && isLoaded[next] && images[next]) {
+            drawImageCover(images[next]);
+            lastRenderedFrame = next + 1;
+            return;
+          }
+        }
+      }
+
+      // Active Section tracking for Text Navbar
+      const sectionIds = ['overview', 'design', 'features', 'comparison', 'explore'];
+      const sections = sectionIds.map(id => document.getElementById(id));
+      const navItems = document.querySelectorAll('.nav-text-item');
+
+      function updateNavHighlight() {
+        const scrollMiddle = window.scrollY + (window.innerHeight * 0.45);
+        let currentSectionId = 'overview';
+
+        for (let sec of sections) {
+          if (sec) {
+            const top = sec.offsetTop;
+            const height = sec.offsetHeight;
+            if (scrollMiddle >= top && scrollMiddle < top + height) {
+              currentSectionId = sec.id;
+              break;
+            } else if (scrollMiddle >= top) {
+              currentSectionId = sec.id;
+            }
+          }
+        }
+
+        navItems.forEach(item => {
+          if (item.dataset.target === currentSectionId) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
+      }
+
+      // Smooth scroll click handler for text navbar links
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = item.dataset.target;
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+
+      function updateTargetFrame() {
+        const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const maxScroll = Math.max(
+          1,
+          document.documentElement.scrollHeight - window.innerHeight
+        );
+
+        const scrollFraction = Math.min(1, Math.max(0, scrollTop / maxScroll));
+        targetFrame = 1 + scrollFraction * (TOTAL_FRAMES - 1);
+
+        updateNavHighlight();
+      }
+
+      function renderLoop() {
+        const diff = targetFrame - currentFrame;
+
+        if (Math.abs(diff) > 0.0005) {
+          currentFrame += diff * LERP_FACTOR;
+        } else {
+          currentFrame = targetFrame;
+        }
+
+        const frameToRender = Math.min(TOTAL_FRAMES, Math.max(1, Math.round(currentFrame)));
+
+        if (frameToRender !== lastRenderedFrame || !isInitialRendered) {
+          drawFrame(frameToRender);
+          isInitialRendered = true;
+        }
+
+        window.__currentFrame = currentFrame;
+        window.__lastRenderedFrame = lastRenderedFrame;
+
+        requestAnimationFrame(renderLoop);
+      }
+
+      function loadSingleFrame(i) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          const imgIndex = i - 1;
+
+          img.onload = () => {
+            images[imgIndex] = img;
+            isLoaded[imgIndex] = 1;
+
+            if (!isInitialRendered && i === 1) {
+              drawFrame(1);
+              isInitialRendered = true;
+            } else if (Math.round(currentFrame) === i) {
+              drawFrame(i);
+            }
+            resolve(img);
+          };
+
+          img.onerror = () => {
+            resolve(null);
+          };
+
+          img.src = FRAME_PATH(i);
+        });
+      }
+
+      async function preloadAllFrames() {
+        // Priority: load and render Frame 1 instantly
+        await loadSingleFrame(1);
+
+        // Preload rest in concurrent batches
+        const BATCH_SIZE = 12;
+        for (let i = 2; i <= TOTAL_FRAMES; i += BATCH_SIZE) {
+          const batch = [];
+          for (let j = i; j < i + BATCH_SIZE && j <= TOTAL_FRAMES; j++) {
+            batch.push(loadSingleFrame(j));
+          }
+          await Promise.all(batch);
+        }
+      }
+
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+      window.addEventListener('scroll', updateTargetFrame, { passive: true });
+
+      resizeCanvas();
+      updateTargetFrame();
+      preloadAllFrames();
+      requestAnimationFrame(renderLoop);
+    })();
+  </script>
+</body>
+</html>

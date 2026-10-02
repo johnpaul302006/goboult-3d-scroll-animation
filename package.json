@@ -1,0 +1,11 @@
+{
+  "name": "goboult-3d-scroll-animation",
+  "version": "1.0.0",
+  "description": "Smooth 3D scroll animation showcase for GoBoult ANC Headphones",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "S John Paul",
+  "license": "ISC"
+}

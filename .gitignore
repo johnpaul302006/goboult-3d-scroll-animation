@@ -1,0 +1,10 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Original zip archive (extracted frames/ folder contains the assets)
+*.zip
+
+# Operating system files
+Thumbs.db
+.DS_Store
